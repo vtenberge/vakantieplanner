@@ -24,7 +24,10 @@ class TripController extends Controller
 
     public function show(Trip $trip)
     {
-        $this->authorize('view', $trip);
+        $user = Auth::user();
+        $isMember = $trip->owner_id === $user->id
+            || $trip->tripMembers()->where('user_id', $user->id)->exists();
+        if (!$isMember) abort(403);
 
         $trip->load([
             'days.items.addedBy',
