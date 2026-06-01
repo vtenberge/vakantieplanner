@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8"/>
+<title>Vakantieplanner — varianten</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  html, body { margin:0; padding:0; height:100%; background:#1a1a1a; }
+  body { font-family: 'DM Sans', system-ui, sans-serif; }
+  * { box-sizing: border-box; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: rgba(0,0,0,.18); border-radius: 999px; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-track { background: transparent; }
+
+  /* Theme A — Almanak (editorial / warm) */
+  .theme-a {
+    --vp-bg: #f6f3ec;
+    --vp-bg-sub: #efeadf;
+    --vp-fg: #1c1916;
+    --vp-fg-sub: #4a4640;
+    --vp-fg-mut: #807a70;
+    --vp-line: #e1dbcd;
+    --vp-line-strong: #c3bca7;
+    --vp-accent: oklch(0.46 0.07 145);
+    --vp-radius: 6px;
+    --vp-radius-lg: 10px;
+    --vp-display: 'Newsreader', 'Times New Roman', serif;
+    --vp-display-w: 500;
+    --vp-display-style: normal;
+    --vp-display-tracking: -0.01em;
+    --vp-body: 'DM Sans', system-ui, sans-serif;
+  }
+  .theme-a.dark {
+    --vp-bg: #14120f;
+    --vp-bg-sub: #1c1a16;
+    --vp-fg: #ece6d8;
+    --vp-fg-sub: #b3ac9d;
+    --vp-fg-mut: #6f6a5e;
+    --vp-line: #2a261f;
+    --vp-line-strong: #3d382e;
+    --vp-accent: oklch(0.70 0.10 145);
+  }
+
+  /* Theme B — Studio (quiet modern / cool) */
+  .theme-b {
+    --vp-bg: #f5f5f4;
+    --vp-bg-sub: #ececea;
+    --vp-fg: #15161a;
+    --vp-fg-sub: #3e4046;
+    --vp-fg-mut: #7a7d85;
+    --vp-line: #e0e0de;
+    --vp-line-strong: #c0c0bd;
+    --vp-accent: oklch(0.62 0.14 35);
+    --vp-radius: 14px;
+    --vp-radius-lg: 22px;
+    --vp-display: 'Instrument Serif', 'Times New Roman', serif;
+    --vp-display-w: 400;
+    --vp-display-style: normal;
+    --vp-display-tracking: -0.02em;
+    --vp-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+  .theme-b.dark {
+    --vp-bg: #0d0d0f;
+    --vp-bg-sub: #16161a;
+    --vp-fg: #ededef;
+    --vp-fg-sub: #b3b4b9;
+    --vp-fg-mut: #6e7079;
+    --vp-line: #232328;
+    --vp-line-strong: #34343a;
+    --vp-accent: oklch(0.74 0.12 35);
+  }
+
+  /* Accent overrides via global tweak */
+  .accent-moss  { --vp-accent: oklch(0.46 0.07 145); }
+  .accent-terra { --vp-accent: oklch(0.62 0.14 35); }
+  .accent-ink   { --vp-accent: oklch(0.45 0.10 245); }
+  .accent-moss.dark  { --vp-accent: oklch(0.70 0.10 145); }
+  .accent-terra.dark { --vp-accent: oklch(0.74 0.12 35); }
+  .accent-ink.dark   { --vp-accent: oklch(0.74 0.10 245); }
+
+  /* Make selects look native-neutral */
+  select { appearance: none; -webkit-appearance: none; background-image: none; }
+  input:focus, select:focus { border-color: var(--vp-fg-sub) !important; }
+  button:focus { outline: none; }
+
+  /* Tab labels under each artboard */
+  .vp-stage-card { background: #fff; border-radius: 14px; overflow:hidden;
+    box-shadow: 0 30px 50px -20px rgba(0,0,0,.25), 0 0 0 1px rgba(0,0,0,.06); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="ios-frame.jsx"></script>
+<script type="text/babel" src="browser-window.jsx"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="app-data.jsx"></script>
+<script type="text/babel" src="app-mobile.jsx"></script>
+<script type="text/babel" src="app-web.jsx"></script>
+
+<script type="text/babel" data-presets="env,react">
+const { useState, useEffect, useMemo } = React;
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accent": "default",
+  "dark": false
+}/*EDITMODE-END*/;
+
+function deepCloneTrip(t){ return JSON.parse(JSON.stringify(t)); }
+
+function App(){
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+  // Shared interactive state (all four panes mirror the same state)
+  const [signed,    setSigned]   = useState(true);
+  const [screen,    setScreen]   = useState("trips");   // "trips" | "detail"
+  const [tab,       setTab]      = useState("dagen");
+  const [invite,    setInvite]   = useState("");
+  const [trip,      setTrip]     = useState(()=> deepCloneTrip(SAMPLE_TRIPS[0]));
+
+  const togglePack = (id)=> setTrip(t=> ({...t, packing: t.packing.map(p=> p.id===id ? {...p, done:!p.done} : p)}));
+  const addPack    = (text)=> setTrip(t=> ({...t, packing: [...t.packing, {id:"p"+Date.now(), text, who:"sara", done:false, cat:"Overig"}]}));
+  const addPlace   = (name)=> setTrip(t=> ({...t, places: [...t.places, {id:"r"+Date.now(), name, kind:"Plek", note:"Toegevoegd door Sara", liked:1}]}));
+  const addToBudget= ()=> setTrip(t=> ({...t, budget_items: [...t.budget_items, {id:"e"+Date.now(), title:"Lunch", who:"sara", amount:24, split:"alle"}]}));
+  const signIn  = ()=> setSigned(true);
+  const signOut = ()=> { setSigned(false); setScreen("trips"); };
+
+  const shared = { trip, members: trip.members, packing: trip.packing, togglePack, addPack,
+    screen, setScreen, tab, setTab, signed, signIn, signOut, invite, setInvite, addPlace, addToBudget };
+
+  const accentClass = t.accent === "moss" ? "accent-moss"
+                    : t.accent === "terra" ? "accent-terra"
+                    : t.accent === "ink"  ? "accent-ink" : "";
+  const darkClass = t.dark ? "dark" : "";
+
+  return (
+    <React.Fragment>
+      <DesignCanvas>
+        <DCSection id="a" title="Variant A — Almanak" subtitle="Editorial • warm off-white • Newsreader + DM Sans">
+          <DCArtboard id="a-mobile" label="Mobiel — iOS" width={402} height={874}>
+            <div className={`theme-a ${darkClass} ${accentClass}`} style={{width:"100%", height:"100%"}}>
+              <IOSDevice width={402} height={874} dark={t.dark}>
+                <MobileApp {...shared} accentName={t.accent}/>
+              </IOSDevice>
+            </div>
+          </DCArtboard>
+          <DCArtboard id="a-web" label="Web — Desktop" width={1200} height={760}>
+            <div className={`theme-a ${darkClass} ${accentClass}`} style={{width:"100%", height:"100%"}}>
+              <ChromeWindow width={1200} height={760} url="vakantie.app/reizen/lis-26">
+                <WebApp {...shared}/>
+              </ChromeWindow>
+            </div>
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection id="b" title="Variant B — Studio" subtitle="Quiet modern • cool grey • Instrument Serif + Plus Jakarta">
+          <DCArtboard id="b-mobile" label="Mobiel — iOS" width={402} height={874}>
+            <div className={`theme-b ${darkClass} ${accentClass}`} style={{width:"100%", height:"100%"}}>
+              <IOSDevice width={402} height={874} dark={t.dark}>
+                <MobileApp {...shared} accentName={t.accent}/>
+              </IOSDevice>
+            </div>
+          </DCArtboard>
+          <DCArtboard id="b-web" label="Web — Desktop" width={1200} height={760}>
+            <div className={`theme-b ${darkClass} ${accentClass}`} style={{width:"100%", height:"100%"}}>
+              <ChromeWindow width={1200} height={760} url="vakantie.app/reizen/lis-26">
+                <WebApp {...shared}/>
+              </ChromeWindow>
+            </div>
+          </DCArtboard>
+        </DCSection>
+      </DesignCanvas>
+
+      <TweaksPanel title="Tweaks">
+        <TweakSection label="Thema"/>
+        <TweakToggle label="Donkere modus" value={t.dark} onChange={(v)=>setTweak('dark', v)}/>
+        <TweakSection label="Accentkleur"/>
+        <TweakRadio label="Palet"
+          value={t.accent}
+          options={[
+            {label:"Standaard", value:"default"},
+            {label:"Mos", value:"moss"},
+            {label:"Terracotta", value:"terra"},
+            {label:"Inkt", value:"ink"},
+          ]}
+          onChange={(v)=>setTweak('accent', v)}/>
+        <TweakSection label="Navigatie"/>
+        <TweakButton label="Spring naar trip-detail" onClick={()=>{ setScreen("detail"); }}/>
+        <TweakButton label="Terug naar trip-overzicht" onClick={()=>{ setScreen("trips"); }}/>
+        <TweakSection label="Sessie"/>
+        <TweakButton label={signed ? "Uitloggen" : "Inloggen"} onClick={()=> signed ? signOut() : signIn()}/>
+      </TweaksPanel>
+    </React.Fragment>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App/>);
+</script>
+</body>
+</html>
