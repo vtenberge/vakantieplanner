@@ -7,7 +7,13 @@
 
 <div class="map-layout">
   <div>
-    @include('trips.partials.mini-map', ['label' => $trip->title, 'height' => 460])
+    @include('trips.partials.mini-map', [
+      'height'    => 500,
+      'mapLat'    => $trip->map_lat ?? 38.7223,
+      'mapLng'    => $trip->map_lng ?? -9.1393,
+      'mapZoom'   => $trip->map_zoom ?? 13,
+      'mapPlaces' => $trip->places,
+    ])
   </div>
   <div>
     <div class="kicker-label" style="margin-bottom:10px">Plekken</div>

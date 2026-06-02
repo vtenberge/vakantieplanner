@@ -77,10 +77,6 @@ $perPerson     = $memberCount > 0 ? round($totalBudget / $memberCount) : 0;
 
     {{-- Tab content --}}
     <div class="main-scroll" style="padding:28px 36px 40px">
-      @if(session('success'))
-      <div class="flash-success">{{ session('success') }}</div>
-      @endif
-
       @if($tab === 'dagen')
         @include('trips.tabs.dagen')
       @elseif($tab === 'paklijst')

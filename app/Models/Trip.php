@@ -12,6 +12,7 @@ class Trip extends Model
     protected $fillable = [
         'owner_id', 'title', 'subtitle', 'country', 'dates',
         'starts_on', 'ends_on', 'nights', 'budget', 'cover',
+        'map_lat', 'map_lng', 'map_zoom',
     ];
 
     public function owner(): BelongsTo

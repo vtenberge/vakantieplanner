@@ -25,6 +25,8 @@ class BudgetItemController extends Controller
             'split'   => $data['split'] ?? 'alle',
         ]);
 
-        return back()->with('tab', 'budget');
+        return redirect()
+            ->route('trips.show', [$trip, 'tab' => 'budget'])
+            ->with('success', 'Uitgave "' . $data['title'] . '" van € ' . $data['amount'] . ' toegevoegd.');
     }
 }

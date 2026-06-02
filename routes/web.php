@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\BudgetItemController;
+use App\Http\Controllers\DayItemController;
 use App\Http\Controllers\PackingItemController;
 use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\TripController;
@@ -31,6 +33,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/reizen/{trip}/plekken',           [PlaceController::class, 'store'])->name('places.store');
 
     Route::post('/reizen/{trip}/budget',            [BudgetItemController::class, 'store'])->name('budget.store');
+
+    Route::post('/reizen/{trip}/boekingen',         [BookingController::class, 'store'])->name('bookings.store');
+    Route::post('/reizen/{trip}/dagen/{day}/items', [DayItemController::class, 'store'])->name('dayitems.store');
 
     Route::post('/reizen/{trip}/leden',             [TripMemberController::class, 'store'])->name('members.store');
     Route::patch('/reizen/{trip}/leden/{member}',   [TripMemberController::class, 'updateRole'])->name('members.update');

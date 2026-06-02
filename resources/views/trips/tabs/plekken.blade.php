@@ -15,7 +15,7 @@
 
 <div class="places-grid">
   <div>
-    @foreach($trip->places as $i => $place)
+    @forelse($trip->places as $i => $place)
     <div class="place-row">
       <div class="place-num">{{ $i + 1 }}</div>
       <div style="flex:1;min-width:0">
@@ -27,9 +27,19 @@
         <x-icon name="star" :s="14"/>{{ $place->liked }}
       </div>
     </div>
-    @endforeach
+    @empty
+    <div style="padding:24px;text-align:center;color:var(--vp-fg-mut);font-size:14px">
+      Nog geen plekken — stel er een voor!
+    </div>
+    @endforelse
   </div>
   <div>
-    @include('trips.partials.mini-map', ['label' => $trip->title, 'height' => 420])
+    @include('trips.partials.mini-map', [
+      'height'    => 420,
+      'mapLat'    => $trip->map_lat ?? 38.7223,
+      'mapLng'    => $trip->map_lng ?? -9.1393,
+      'mapZoom'   => $trip->map_zoom ?? 13,
+      'mapPlaces' => $trip->places,
+    ])
   </div>
 </div>

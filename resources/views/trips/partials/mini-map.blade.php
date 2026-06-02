@@ -1,31 +1,45 @@
 @php
-$mapHeight = $height ?? 160;
-$mapLabel  = $label ?? 'Kaart';
-$pins = 5;
-$pts = [];
-for ($i = 0; $i < $pins; $i++) {
-  $pts[] = ['x' => ($i*73+19) % 82 + 9, 'y' => ($i*131+11) % 62 + 18];
-}
+$mapHeight = $height ?? 200;
+$mapId     = 'map-' . uniqid();
+$places    = $mapPlaces ?? collect();
+$lat       = $mapLat ?? 38.7223;
+$lng       = $mapLng ?? -9.1393;
+$zoom      = $mapZoom ?? 13;
 @endphp
-<div class="mini-map" style="height:{{ $mapHeight }}px;background:#ece8df">
-  <div style="position:absolute;left:0;right:0;bottom:0;height:38%;background:#d9e3e8;clip-path:polygon(0 30%,18% 18%,32% 22%,50% 12%,68% 18%,84% 10%,100% 22%,100% 100%,0 100%)"></div>
-  <svg width="100%" height="100%" style="position:absolute;inset:0">
-    @foreach([15,32,55,72] as $y)
-    <line x1="0" y1="{{ $y }}%" x2="100%" y2="{{ $y }}%" stroke="rgba(0,0,0,.06)" stroke-width="1"/>
-    @endforeach
-    @foreach([14,28,46,62,80] as $x)
-    <line x1="{{ $x }}%" y1="0" x2="{{ $x }}%" y2="100%" stroke="rgba(0,0,0,.06)" stroke-width="1"/>
-    @endforeach
-  </svg>
-  @foreach($pts as $pt)
-  <div style="position:absolute;left:{{ $pt['x'] }}%;top:{{ $pt['y'] }}%;transform:translate(-50%,-100%)">
-    <svg width="22" height="28" viewBox="0 0 22 28">
-      <path d="M11 1c5.5 0 10 4.3 10 9.8 0 7-10 16.2-10 16.2S1 17.8 1 10.8C1 5.3 5.5 1 11 1Z" fill="var(--vp-accent)" stroke="var(--vp-bg)" stroke-width="1.5"/>
-      <circle cx="11" cy="10.5" r="3.2" fill="var(--vp-bg)"/>
-    </svg>
-  </div>
+
+<div id="{{ $mapId }}" style="width:100%;height:{{ $mapHeight }}px;border-radius:var(--vp-radius);overflow:hidden;border:1px solid var(--vp-line);"></div>
+
+<script>
+(function(){
+  const map = L.map('{{ $mapId }}', { zoomControl: true, scrollWheelZoom: false })
+    .setView([{{ $lat }}, {{ $lng }}], {{ $zoom }});
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> © <a href="https://carto.com/">CARTO</a>',
+    maxZoom: 19,
+  }).addTo(map);
+
+  const accentColor = getComputedStyle(document.documentElement)
+    .getPropertyValue('--vp-accent').trim() || '#e07a5f';
+
+  const pinIcon = L.divIcon({
+    className: '',
+    html: `<svg width="28" height="34" viewBox="0 0 28 34" xmlns="http://www.w3.org/2000/svg">
+      <path d="M14 1C7.37 1 2 6.37 2 13c0 8.5 12 20 12 20S26 21.5 26 13C26 6.37 20.63 1 14 1Z"
+        fill="${accentColor}" stroke="white" stroke-width="1.5"/>
+      <circle cx="14" cy="13" r="4" fill="white"/>
+    </svg>`,
+    iconSize: [28, 34],
+    iconAnchor: [14, 34],
+    popupAnchor: [0, -34],
+  });
+
+  @foreach($places as $i => $place)
+  @if($place->lat && $place->lng)
+  L.marker([{{ $place->lat }}, {{ $place->lng }}], { icon: pinIcon })
+    .addTo(map)
+    .bindPopup(`<strong>{{ addslashes($place->name) }}</strong><br><span style="font-size:11px;color:#888">{{ addslashes($place->kind) }}</span>`);
+  @endif
   @endforeach
-  <div style="position:absolute;left:10px;top:10px;padding:4px 8px;background:var(--vp-bg);border:1px solid var(--vp-line);border-radius:6px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--vp-fg-mut)">
-    {{ $mapLabel }}
-  </div>
-</div>
+})();
+</script>

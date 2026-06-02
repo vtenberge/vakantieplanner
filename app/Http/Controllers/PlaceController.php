@@ -24,6 +24,8 @@ class PlaceController extends Controller
             'liked'   => 0,
         ]);
 
-        return back()->with('tab', 'plekken');
+        return redirect()
+            ->route('trips.show', [$trip, 'tab' => 'plekken'])
+            ->with('success', '"' . $data['name'] . '" toegevoegd aan plekken.');
     }
 }

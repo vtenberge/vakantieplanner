@@ -24,7 +24,9 @@ class PackingItemController extends Controller
             'done'     => false,
         ]);
 
-        return back()->with('tab', 'paklijst');
+        return redirect()
+            ->route('trips.show', [$trip, 'tab' => 'paklijst'])
+            ->with('success', '"' . $data['text'] . '" toegevoegd aan de paklijst.');
     }
 
     public function toggle(PackingItem $item)

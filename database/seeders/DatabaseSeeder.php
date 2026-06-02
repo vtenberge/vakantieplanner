@@ -35,6 +35,9 @@ class DatabaseSeeder extends Seeder
             'nights'   => 7,
             'budget'   => 1240,
             'cover'    => 'linear-gradient(135deg,#a87f5e 0%,#5b3b25 60%,#241612 100%)',
+            'map_lat'  => 38.7223,
+            'map_lng'  => -9.1393,
+            'map_zoom' => 14,
         ]);
 
         TripMember::insert([
@@ -95,14 +98,14 @@ class DatabaseSeeder extends Seeder
         }
 
         $places = [
-            ['Taberna da Rua das Flores', 'Restaurant', 'Geen reservering, vroeg gaan', 3],
-            ['Time Out Market',           'Markt',      'Lunch — proeven van alles',    4],
-            ['Pastéis de Belém',          'Bakkerij',   'Originele pastéis',            4],
-            ['Park bar Lost In',          'Bar',        'Uitzicht op de heuvels',       2],
-            ['Cervejaria Ramiro',         'Restaurant', 'Schaaldieren, druk',           3],
+            ['Taberna da Rua das Flores', 'Restaurant', 'Geen reservering, vroeg gaan', 3, 38.7101, -9.1401],
+            ['Time Out Market',           'Markt',      'Lunch — proeven van alles',    4, 38.7068, -9.1491],
+            ['Pastéis de Belém',          'Bakkerij',   'Originele pastéis',            4, 38.6979, -9.2033],
+            ['Park bar Lost In',          'Bar',        'Uitzicht op de heuvels',       2, 38.7192, -9.1425],
+            ['Cervejaria Ramiro',         'Restaurant', 'Schaaldieren, druk',           3, 38.7231, -9.1363],
         ];
-        foreach ($places as [$name, $kind, $note, $liked]) {
-            Place::create(['trip_id' => $lis->id, 'name' => $name, 'kind' => $kind, 'note' => $note, 'liked' => $liked]);
+        foreach ($places as [$name, $kind, $note, $liked, $lat, $lng]) {
+            Place::create(['trip_id' => $lis->id, 'name' => $name, 'kind' => $kind, 'note' => $note, 'liked' => $liked, 'lat' => $lat, 'lng' => $lng]);
         }
 
         Booking::insert([
