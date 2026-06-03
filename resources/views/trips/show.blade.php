@@ -1,13 +1,15 @@
 <x-layout :title="$trip->title . ' — Vakantieplanner'">
 @php
 $tabs = [
-  ['id' => 'dagen',    'label' => 'Dagen'],
-  ['id' => 'paklijst','label' => 'Paklijst'],
-  ['id' => 'plekken', 'label' => 'Plekken'],
-  ['id' => 'boeking', 'label' => 'Boekingen'],
-  ['id' => 'budget',  'label' => 'Budget'],
-  ['id' => 'kaart',   'label' => 'Kaart'],
-  ['id' => 'leden',   'label' => 'Leden'],
+  ['id' => 'dagen',      'label' => 'Dagen'],
+  ['id' => 'paklijst',   'label' => 'Paklijst'],
+  ['id' => 'plekken',    'label' => 'Plekken'],
+  ['id' => 'boeking',    'label' => 'Boekingen'],
+  ['id' => 'budget',     'label' => 'Budget'],
+  ['id' => 'kaart',      'label' => 'Kaart'],
+  ['id' => 'chat',       'label' => 'Chat' . ($trip->comments->count() > 0 ? ' (' . $trip->comments->count() . ')' : '')],
+  ['id' => 'activiteit', 'label' => 'Activiteit'],
+  ['id' => 'leden',      'label' => 'Leden'],
 ];
 
 $allTrips = \App\Models\Trip::where('owner_id', auth()->id())
@@ -94,6 +96,10 @@ $perPerson     = $memberCount > 0 ? round($totalBudget / $memberCount) : 0;
         @include('trips.tabs.budget')
       @elseif($tab === 'kaart')
         @include('trips.tabs.kaart')
+      @elseif($tab === 'chat')
+        @include('trips.tabs.chat')
+      @elseif($tab === 'activiteit')
+        @include('trips.tabs.activiteit')
       @elseif($tab === 'leden')
         @include('trips.tabs.leden')
       @endif

@@ -54,7 +54,7 @@ class Trip extends Model
 
     public function bookings(): HasMany
     {
-        return $this->hasMany(Booking::class);
+        return $this->hasMany(Booking::class)->orderBy('created_at');
     }
 
     public function budgetItems(): HasMany
@@ -65,6 +65,16 @@ class Trip extends Model
     public function invitations(): HasMany
     {
         return $this->hasMany(TripInvitation::class);
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(TripComment::class)->latest();
+    }
+
+    public function activityLogs(): HasMany
+    {
+        return $this->hasMany(ActivityLog::class)->latest();
     }
 
     public function getDaysAwayAttribute(): int

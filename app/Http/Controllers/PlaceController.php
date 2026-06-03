@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\Place;
 use App\Models\Trip;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PlaceController extends Controller
 {
@@ -23,6 +25,8 @@ class PlaceController extends Controller
             'note'    => $data['note'] ?? '',
             'liked'   => 0,
         ]);
+
+        ActivityLog::record($trip->id, '📍', Auth::user()->name . ' voegde plek "' . $data['name'] . '" toe');
 
         return redirect()
             ->route('trips.show', [$trip, 'tab' => 'plekken'])

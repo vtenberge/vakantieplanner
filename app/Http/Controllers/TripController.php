@@ -32,11 +32,14 @@ class TripController extends Controller
         $trip->load([
             'days.items.addedBy',
             'packingItems.user',
+            'packingItems.assignedTo',
             'places',
             'bookings.addedBy',
             'budgetItems.user',
             'tripMembers.user',
             'invitations.invitedBy',
+            'comments.user',
+            'activityLogs.user',
         ]);
 
         $tab = request('tab', 'dagen');

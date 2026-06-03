@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\BudgetItemController;
 use App\Http\Controllers\DayController;
@@ -37,7 +38,11 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/reizen/{trip}/paklijst',          [PackingItemController::class, 'store'])->name('packing.store');
     Route::patch('/paklijst/{item}/toggle',          [PackingItemController::class, 'toggle'])->name('packing.toggle');
+    Route::patch('/paklijst/{item}/toewijzen',       [PackingItemController::class, 'assign'])->name('packing.assign');
     Route::delete('/paklijst/{item}',                [PackingItemController::class, 'destroy'])->name('packing.destroy');
+
+    Route::post('/reizen/{trip}/reacties',           [CommentController::class, 'store'])->name('comments.store');
+    Route::delete('/reacties/{comment}',             [CommentController::class, 'destroy'])->name('comments.destroy');
 
     Route::post('/reizen/{trip}/plekken',            [PlaceController::class, 'store'])->name('places.store');
     Route::post('/plekken/{place}/like',             [PlaceController::class, 'like'])->name('places.like');

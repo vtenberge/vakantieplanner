@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\TripDay;
 use App\Models\Trip;
 use Illuminate\Http\Request;
@@ -25,6 +26,8 @@ class DayItemController extends Controller
             'kind'     => $data['kind'],
             'added_by' => Auth::id(),
         ]);
+
+        ActivityLog::record($trip->id, '📅', Auth::user()->name . ' voegde "' . $data['title'] . '" toe aan dag ' . $day->day_number);
 
         return redirect()
             ->route('trips.show', [$trip, 'tab' => 'dagen'])

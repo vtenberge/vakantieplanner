@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\Booking;
 use App\Models\Trip;
 use Illuminate\Http\Request;
@@ -28,6 +29,8 @@ class BookingController extends Controller
             'cost'         => $data['cost'],
             'added_by'     => Auth::id(),
         ]);
+
+        ActivityLog::record($trip->id, '🎫', Auth::user()->name . ' voegde boeking "' . $data['title'] . '" toe (€' . $data['cost'] . ')');
 
         return redirect()
             ->route('trips.show', [$trip, 'tab' => 'boeking'])
