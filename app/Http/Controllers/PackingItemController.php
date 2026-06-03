@@ -34,4 +34,11 @@ class PackingItemController extends Controller
         $item->update(['done' => !$item->done]);
         return back();
     }
+
+    public function destroy(PackingItem $item)
+    {
+        $trip = $item->trip;
+        $item->delete();
+        return redirect()->route('trips.show', [$trip, 'tab' => 'paklijst']);
+    }
 }

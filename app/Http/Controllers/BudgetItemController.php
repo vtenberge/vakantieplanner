@@ -29,4 +29,11 @@ class BudgetItemController extends Controller
             ->route('trips.show', [$trip, 'tab' => 'budget'])
             ->with('success', 'Uitgave "' . $data['title'] . '" van € ' . $data['amount'] . ' toegevoegd.');
     }
+
+    public function destroy(BudgetItem $item)
+    {
+        $trip = $item->trip;
+        $item->delete();
+        return redirect()->route('trips.show', [$trip, 'tab' => 'budget']);
+    }
 }

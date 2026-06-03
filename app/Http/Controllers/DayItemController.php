@@ -30,4 +30,11 @@ class DayItemController extends Controller
             ->route('trips.show', [$trip, 'tab' => 'dagen'])
             ->with('success', 'Activiteit toegevoegd aan dag ' . $day->day_number . '.');
     }
+
+    public function destroy(\App\Models\DayItem $item)
+    {
+        $tripId = $item->day->trip_id;
+        $item->delete();
+        return redirect()->route('trips.show', [$tripId, 'tab' => 'dagen']);
+    }
 }

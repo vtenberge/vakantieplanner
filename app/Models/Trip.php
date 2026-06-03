@@ -9,6 +9,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Trip extends Model
 {
+    protected $casts = [
+        'starts_on' => 'date',
+        'ends_on'   => 'date',
+    ];
+
     protected $fillable = [
         'owner_id', 'title', 'subtitle', 'country', 'dates',
         'starts_on', 'ends_on', 'nights', 'budget', 'cover',

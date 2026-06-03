@@ -33,4 +33,11 @@ class BookingController extends Controller
             ->route('trips.show', [$trip, 'tab' => 'boeking'])
             ->with('success', 'Boeking "' . $data['title'] . '" toegevoegd.');
     }
+
+    public function destroy(Booking $booking)
+    {
+        $trip = Trip::findOrFail($booking->trip_id);
+        $booking->delete();
+        return redirect()->route('trips.show', [$trip, 'tab' => 'boeking']);
+    }
 }

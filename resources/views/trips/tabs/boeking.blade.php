@@ -20,10 +20,14 @@
     <div style="color:var(--vp-fg-sub)">{{ $booking->date_label }}</div>
     <div class="monospace" style="font-size:12px;color:var(--vp-fg-sub)">{{ $booking->booking_code }}</div>
     <div style="text-align:right;font-weight:600">€ {{ $booking->cost }}</div>
-    <div style="display:flex;justify-content:flex-end">
+    <div style="display:flex;justify-content:flex-end;align-items:center;gap:8px">
       @if($booking->addedBy)
       <x-avatar :name="$booking->addedBy->name" :size="22"/>
       @endif
+      <form method="POST" action="{{ route('bookings.destroy', $booking) }}" onsubmit="return confirm('Boeking verwijderen?')">
+        @csrf @method('DELETE')
+        <button type="submit" class="btn-icon" title="Verwijderen" style="opacity:.4"><x-icon name="more" :s="13"/></button>
+      </form>
     </div>
   </div>
   @empty
