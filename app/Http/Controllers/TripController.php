@@ -54,13 +54,14 @@ class TripController extends Controller
         if (!$member || !in_array($member->role, ['eigenaar', 'bewerker'])) abort(403);
 
         $data = $request->validate([
-            'title'     => 'required|string|max:255',
-            'country'   => 'nullable|string|max:100',
-            'dates'     => 'nullable|string|max:100',
-            'starts_on' => 'nullable|date',
-            'ends_on'   => 'nullable|date',
-            'nights'    => 'nullable|integer|min:0',
-            'budget'    => 'nullable|integer|min:0',
+            'title'    => 'required|string|max:255',
+            'subtitle' => 'nullable|string|max:255',
+            'country'  => 'nullable|string|max:100',
+            'dates'    => 'nullable|string|max:100',
+            'starts_on'=> 'nullable|date',
+            'ends_on'  => 'nullable|date',
+            'nights'   => 'nullable|integer|min:0',
+            'budget'   => 'nullable|integer|min:0',
         ]);
 
         $trip->update($data);
@@ -68,6 +69,17 @@ class TripController extends Controller
         return redirect()
             ->route('trips.show', $trip)
             ->with('success', 'Reis bijgewerkt.');
+    }
+
+    public function saveMapState(Request $request, Trip $trip)
+    {
+        $data = $request->validate([
+            'map_lat'  => 'required|numeric|between:-90,90',
+            'map_lng'  => 'required|numeric|between:-180,180',
+            'map_zoom' => 'required|integer|between:1,19',
+        ]);
+        $trip->update($data);
+        return response()->json(['ok' => true]);
     }
 
     public function destroy(Trip $trip)
@@ -81,6 +93,7 @@ class TripController extends Controller
     {
         $data = $request->validate([
             'title'    => 'required|string|max:255',
+            'subtitle' => 'nullable|string|max:255',
             'country'  => 'nullable|string|max:100',
             'dates'    => 'nullable|string|max:100',
             'starts_on'=> 'nullable|date',

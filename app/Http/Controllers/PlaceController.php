@@ -16,6 +16,8 @@ class PlaceController extends Controller
             'name' => 'required|string|max:255',
             'kind' => 'nullable|string|max:50',
             'note' => 'nullable|string|max:255',
+            'lat'  => 'nullable|numeric|between:-90,90',
+            'lng'  => 'nullable|numeric|between:-180,180',
         ]);
 
         Place::create([
@@ -24,6 +26,8 @@ class PlaceController extends Controller
             'kind'    => $data['kind'] ?? 'Plek',
             'note'    => $data['note'] ?? '',
             'liked'   => 0,
+            'lat'     => $data['lat'] ?? null,
+            'lng'     => $data['lng'] ?? null,
         ]);
 
         ActivityLog::record($trip->id, '📍', Auth::user()->name . ' voegde plek "' . $data['name'] . '" toe');
@@ -31,6 +35,16 @@ class PlaceController extends Controller
         return redirect()
             ->route('trips.show', [$trip, 'tab' => 'plekken'])
             ->with('success', '"' . $data['name'] . '" toegevoegd aan plekken.');
+    }
+
+    public function updateLocation(Request $request, Place $place)
+    {
+        $data = $request->validate([
+            'lat' => 'required|numeric|between:-90,90',
+            'lng' => 'required|numeric|between:-180,180',
+        ]);
+        $place->update($data);
+        return response()->json(['ok' => true]);
     }
 
     public function like(Place $place)

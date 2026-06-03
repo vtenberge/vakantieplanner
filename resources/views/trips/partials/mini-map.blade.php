@@ -5,6 +5,8 @@ $places    = $mapPlaces ?? collect();
 $lat       = $mapLat ?? 38.7223;
 $lng       = $mapLng ?? -9.1393;
 $zoom      = $mapZoom ?? 13;
+$doSave    = $saveState ?? false;
+$tId       = $tripId ?? null;
 @endphp
 
 <div id="{{ $mapId }}" style="width:100%;height:{{ $mapHeight }}px;border-radius:var(--vp-radius);overflow:hidden;border:1px solid var(--vp-line);"></div>
@@ -41,5 +43,21 @@ $zoom      = $mapZoom ?? 13;
     .bindPopup(`<strong>{{ addslashes($place->name) }}</strong><br><span style="font-size:11px;color:#888">{{ addslashes($place->kind) }}</span>`);
   @endif
   @endforeach
+
+  @if($doSave && $tId)
+  const CSRF = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+  let saveTimer;
+  map.on('moveend zoomend', () => {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      const c = map.getCenter();
+      fetch('/reizen/{{ $tId }}/kaartstand', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF },
+        body: JSON.stringify({ map_lat: c.lat, map_lng: c.lng, map_zoom: map.getZoom() }),
+      });
+    }, 800);
+  });
+  @endif
 })();
 </script>

@@ -46,7 +46,10 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/reizen/{trip}/plekken',            [PlaceController::class, 'store'])->name('places.store');
     Route::post('/plekken/{place}/like',             [PlaceController::class, 'like'])->name('places.like');
+    Route::patch('/plekken/{place}/locatie',         [PlaceController::class, 'updateLocation'])->name('places.location');
     Route::delete('/plekken/{place}',                [PlaceController::class, 'destroy'])->name('places.destroy');
+
+    Route::patch('/reizen/{trip}/kaartstand',        [TripController::class, 'saveMapState'])->name('trips.mapstate');
 
     Route::post('/reizen/{trip}/budget',             [BudgetItemController::class, 'store'])->name('budget.store');
     Route::delete('/budget/{item}',                  [BudgetItemController::class, 'destroy'])->name('budget.destroy');

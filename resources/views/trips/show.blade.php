@@ -116,6 +116,10 @@ $perPerson     = $memberCount > 0 ? round($totalBudget / $memberCount) : 0;
         <label class="field-label">Bestemming *</label>
         <input name="title" class="field" value="{{ $trip->title }}" required/>
       </div>
+      <div>
+        <label class="field-label">Ondertitel</label>
+        <input name="subtitle" class="field" value="{{ $trip->subtitle }}" placeholder="Zomervakantie met het gezin"/>
+      </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
         <div>
           <label class="field-label">Land</label>
