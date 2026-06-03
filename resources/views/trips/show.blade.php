@@ -35,8 +35,13 @@ $perPerson     = $memberCount > 0 ? round($totalBudget / $memberCount) : 0;
           <span style="opacity:.5">/</span>
           <span>{{ $trip->title }}</span>
           <div style="margin-left:auto" class="trip-hero-actions">
-            <button class="btn-hero"><x-icon name="share" :s="14"/></button>
-            <button class="btn-hero"><x-icon name="user" :s="14"/> Uitnodigen</button>
+            <button class="btn-hero" onclick="document.getElementById('edit-trip-modal').style.display='flex'"><x-icon name="share" :s="14"/> Bewerken</button>
+            @if($trip->owner_id === auth()->id())
+            <form method="POST" action="{{ route('trips.destroy', $trip) }}" style="display:inline" onsubmit="return confirm('Reis definitief verwijderen? Dit kan niet ongedaan worden gemaakt.')">
+              @csrf @method('DELETE')
+              <button type="submit" class="btn-hero" style="color:#f87171">Verwijderen</button>
+            </form>
+            @endif
           </div>
         </div>
         <div class="trip-hero-meta">
@@ -94,5 +99,46 @@ $perPerson     = $memberCount > 0 ? round($totalBudget / $memberCount) : 0;
       @endif
     </div>
   </main>
+</div>
+{{-- Edit trip modal --}}
+<div id="edit-trip-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:center;justify-content:center">
+  <div style="background:var(--vp-bg);border-radius:var(--vp-radius-lg);padding:32px;width:480px;border:1px solid var(--vp-line)">
+    <h2 style="font-family:var(--vp-display);font-size:28px;font-weight:400;margin:0 0 24px">Reis bewerken</h2>
+    <form method="POST" action="{{ route('trips.update', $trip) }}" style="display:flex;flex-direction:column;gap:14px">
+      @csrf @method('PATCH')
+      <div>
+        <label class="field-label">Bestemming *</label>
+        <input name="title" class="field" value="{{ $trip->title }}" required/>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div>
+          <label class="field-label">Land</label>
+          <input name="country" class="field" value="{{ $trip->country }}"/>
+        </div>
+        <div>
+          <label class="field-label">Nachten</label>
+          <input name="nights" type="number" class="field" value="{{ $trip->nights }}" min="0"/>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div>
+          <label class="field-label">Vertrekdatum</label>
+          <input name="starts_on" type="date" class="field" value="{{ $trip->starts_on?->format('Y-m-d') }}"/>
+        </div>
+        <div>
+          <label class="field-label">Terugkomstdatum</label>
+          <input name="ends_on" type="date" class="field" value="{{ $trip->ends_on?->format('Y-m-d') }}"/>
+        </div>
+      </div>
+      <div>
+        <label class="field-label">Budget (€)</label>
+        <input name="budget" type="number" class="field" value="{{ $trip->budget }}" min="0"/>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:8px">
+        <button type="submit" class="btn-primary" style="flex:1;justify-content:center;padding:13px">Opslaan</button>
+        <button type="button" onclick="document.getElementById('edit-trip-modal').style.display='none'" class="btn-ghost" style="flex:1;justify-content:center;padding:13px">Annuleren</button>
+      </div>
+    </form>
+  </div>
 </div>
 </x-layout>

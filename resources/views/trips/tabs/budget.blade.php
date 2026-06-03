@@ -41,6 +41,10 @@
         </div>
       </div>
       <div style="font-size:14px;font-weight:600">€ {{ $item->amount }}</div>
+      <form method="POST" action="{{ route('budget.destroy', $item) }}" onsubmit="return confirm('Uitgave verwijderen?')">
+        @csrf @method('DELETE')
+        <button type="submit" class="btn-icon" title="Verwijderen" style="opacity:.4;padding:4px"><x-icon name="more" :s="13"/></button>
+      </form>
     </div>
     @endforeach
   </div>

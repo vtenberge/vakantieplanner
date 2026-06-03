@@ -28,4 +28,17 @@ class PlaceController extends Controller
             ->route('trips.show', [$trip, 'tab' => 'plekken'])
             ->with('success', '"' . $data['name'] . '" toegevoegd aan plekken.');
     }
+
+    public function like(Place $place)
+    {
+        $place->increment('liked');
+        return redirect()->route('trips.show', [$place->trip_id, 'tab' => 'plekken']);
+    }
+
+    public function destroy(Place $place)
+    {
+        $tripId = $place->trip_id;
+        $place->delete();
+        return redirect()->route('trips.show', [$tripId, 'tab' => 'plekken']);
+    }
 }

@@ -36,11 +36,42 @@ class TripController extends Controller
             'bookings.addedBy',
             'budgetItems.user',
             'tripMembers.user',
+            'invitations.invitedBy',
         ]);
 
         $tab = request('tab', 'dagen');
 
         return view('trips.show', compact('trip', 'tab'));
+    }
+
+    public function update(Request $request, Trip $trip)
+    {
+        $user = Auth::user();
+        $member = $trip->tripMembers()->where('user_id', $user->id)->first();
+        if (!$member || !in_array($member->role, ['eigenaar', 'bewerker'])) abort(403);
+
+        $data = $request->validate([
+            'title'     => 'required|string|max:255',
+            'country'   => 'nullable|string|max:100',
+            'dates'     => 'nullable|string|max:100',
+            'starts_on' => 'nullable|date',
+            'ends_on'   => 'nullable|date',
+            'nights'    => 'nullable|integer|min:0',
+            'budget'    => 'nullable|integer|min:0',
+        ]);
+
+        $trip->update($data);
+
+        return redirect()
+            ->route('trips.show', $trip)
+            ->with('success', 'Reis bijgewerkt.');
+    }
+
+    public function destroy(Trip $trip)
+    {
+        if ($trip->owner_id !== Auth::id()) abort(403);
+        $trip->delete();
+        return redirect()->route('trips.index')->with('success', 'Reis verwijderd.');
     }
 
     public function store(Request $request)

@@ -9,6 +9,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Trip extends Model
 {
+    protected $casts = [
+        'starts_on' => 'date',
+        'ends_on'   => 'date',
+    ];
+
     protected $fillable = [
         'owner_id', 'title', 'subtitle', 'country', 'dates',
         'starts_on', 'ends_on', 'nights', 'budget', 'cover',
@@ -55,6 +60,11 @@ class Trip extends Model
     public function budgetItems(): HasMany
     {
         return $this->hasMany(BudgetItem::class);
+    }
+
+    public function invitations(): HasMany
+    {
+        return $this->hasMany(TripInvitation::class);
     }
 
     public function getDaysAwayAttribute(): int
