@@ -62,6 +62,11 @@ class Trip extends Model
         return $this->hasMany(BudgetItem::class);
     }
 
+    public function invitations(): HasMany
+    {
+        return $this->hasMany(TripInvitation::class);
+    }
+
     public function getDaysAwayAttribute(): int
     {
         if (!$this->starts_on) return 0;

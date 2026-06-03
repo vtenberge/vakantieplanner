@@ -36,6 +36,7 @@ class TripController extends Controller
             'bookings.addedBy',
             'budgetItems.user',
             'tripMembers.user',
+            'invitations.invitedBy',
         ]);
 
         $tab = request('tab', 'dagen');

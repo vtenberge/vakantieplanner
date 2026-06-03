@@ -13,8 +13,9 @@
         <div class="error-msg" style="margin-bottom:16px">{{ $errors->first() }}</div>
       @endif
 
-      <form method="POST" action="{{ route('login') }}" style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px">
+      <form method="POST" action="{{ route('login') }}" style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px" id="login-form">
         @csrf
+        @if(request('invite'))<input type="hidden" name="_invite" value="{{ request('invite') }}"/>@endif
         <div>
           <label class="field-label">E-mail</label>
           <input name="email" type="email" class="field" value="{{ old('email') }}" placeholder="sara@dewit.nl" required/>

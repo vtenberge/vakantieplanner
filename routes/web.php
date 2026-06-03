@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\BudgetItemController;
 use App\Http\Controllers\DayController;
 use App\Http\Controllers\DayItemController;
@@ -21,6 +22,10 @@ Route::middleware('guest')->group(function () {
     Route::post('/register',[LoginController::class, 'register']);
 });
 Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth')->name('logout');
+
+// Invitations (public — token-based)
+Route::get('/uitnodiging/{token}',           [InvitationController::class, 'show'])->name('invitations.show');
+Route::post('/uitnodiging/{token}/accepteer',[InvitationController::class, 'accept'])->name('invitations.accept');
 
 // App (authenticated)
 Route::middleware('auth')->group(function () {
@@ -49,6 +54,8 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/reizen/{trip}/dagen/{day}/items',  [DayItemController::class, 'store'])->name('dayitems.store');
     Route::delete('/dagitems/{item}',                [DayItemController::class, 'destroy'])->name('dayitems.destroy');
+
+    Route::delete('/uitnodiging/{invitation}',        [InvitationController::class, 'destroy'])->name('invitations.destroy');
 
     Route::post('/reizen/{trip}/leden',              [TripMemberController::class, 'store'])->name('members.store');
     Route::patch('/reizen/{trip}/leden/{member}',    [TripMemberController::class, 'updateRole'])->name('members.update');
